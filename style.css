@@ -1,0 +1,877 @@
+/*================GERAL================*/
+
+/* "*" = Seletor universal */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* Seletor do root 
+criação de variavel: --nome-variavel ou nomevariavel usar: var(--nome-variavel).
+A fonte padrão do navegador vem com 16px fizemos uma conversão para rem para não quebrar a pagina 
+caso algo seja mudado, PX é muito preciso
+*/
+:root {
+    --hue: 230  ;
+    --primary-color: hsl(var(--hue), 100%, 26%);
+    --headline: hsl(210, 11%,15%);
+    --paragraph: hsl(210, 9%, 31%);
+    
+    --brand-beige: hsl(39,100%,97%);
+    --brand-light: hsl(calc(var(--hue) -22), 23%,89%);
+    --brand-light2: hsl(calc(var(--hue) + 10), 14%, 97%);
+    --bg-light: hsl(180, 14%, 97%);
+    --brand-dark:  hsl(var(--hue), 100%, 14%);
+    
+    
+    font-size: 62,5%; /*1 rem  = 10 px*/
+
+    --nav-height: 7.2rem;
+}
+
+html {
+    scroll-behavior: smooth; /*Comportamento do Scroll velocidade de rolagem smooth(suave)*/
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: 'Dm Sans';
+    font-size: 1.6rem;
+
+    text-align: center;
+
+    overflow: overlay; /*sobrepoem o scroll não calcula o scroll*/
+
+    background: var(--bg-light);
+}
+
+.wrapper {
+    width: min(50rem, 100%); /*Minimo de tamanho e coloca 100% da viewport*/
+    /* width: 37.5rem; Tiramos o valor do embrulho e trocamos para valores mais flexiveis */
+    margin-inline: auto;
+    padding-inline: 2.4rem;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+section {
+    padding-block: 10rem;
+}
+
+section header h4 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        line-height: 150%;
+        letter-spacing: 0.08rem;
+        color: var(--primary-color); /*Aplicação do valor da variavel como se fosse uma função*/
+
+        text-transform: uppercase;
+
+        margin-bottom: 1.6rem;    
+}
+
+section header h2 {
+        font-size: 3rem;
+        line-height: 3.9rem;
+    
+        color: var(--headline);
+    
+
+}
+
+section header h1 {
+        font-size: 3.4rem;
+        color: var(--headline); /*Aplicação do valor da variavel como se fosse uma função*/
+        line-height: 130%;
+
+        margin-bottom: 2.4rem; /*cuidadr com mais h1 em um template */
+}
+
+section .content p {
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 150%;
+
+    color: var(--paragraph);
+}
+
+.button {
+    background-color: var(--primary-color);
+    border: none;
+    
+    border-radius: 4rem;
+    margin-bottom: 6rem;
+
+    padding: 1.6rem 3.2rem;
+    width: fit-content;
+
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-transform: uppercase; /* Tranforma o texto uppercase(TEXTO) lowercase(texto)*/
+
+    /* conceito de  box(caixa) = Margin: espaçamento externo
+    padding: preenchimento interno 
+    border: Borda da box(caixa) 
+    width: largura
+    height: altura
+    */
+    display: flex; /* conceito de caixa*/
+    align-items: center;
+    justify-content: center;
+    gap: 1.6rem;
+    
+    /* margin-right: auto;  Espaçamento para direita 
+    margin-left: auto; Espaçamento para esquerda */
+
+    text-decoration:  none;
+    transition: background 300ms;
+}
+
+.button:hover {
+    background-color: var(--brand-dark);
+}
+
+/*Custom colors*/
+
+#services .card circle {
+    fill: var(--brand-light);
+}
+
+#navigation .logo path[fill*="#00856F"],
+#backToTopButton circle {
+    fill: var(--primary-color);
+}
+
+button.open-menu path[stroke*="#00856F"],
+#contact li path {
+    stroke: var(--primary-color);
+}
+
+body.menu-expanded #navigation .logo path,
+#navigation.scroll .logo path {
+    fill: white;
+}
+
+#navigation.scroll button.open-menu path[stroke*="#00856F"] {
+    stroke: white;
+}
+
+/*================NAVIGATION================*/
+
+nav {
+    display: flex;
+   
+    height: var(--nav-height);
+
+    /*Position: fixed; reseta as configurações porem  libera tags*/
+    position:fixed;
+    top:0;
+    width: 100vw;
+    /* left: 50%;
+    transform: translateX(-50%);calcula tamanho do elemento e se desloca pelo eixo X */
+    z-index: 100;
+}
+
+nav .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+nav.scroll {
+    background-color: var(--primary-color);
+}
+
+/* nav.scroll .logo path {
+    fill: white;
+}
+
+nav.scroll button path {
+    stroke: white;
+} */
+
+
+nav button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+nav .menu,
+nav .close-menu {
+    position: fixed;
+}
+
+
+/*================MENU-EXPANDED================*/
+
+body.menu-expanded {
+    overflow: hidden;
+}
+
+body.menu-expanded > :not(nav) {
+    display: none;
+}
+
+.menu,
+.close-menu,
+body.menu-expanded .open-menu {
+    opacity: 0;
+    visibility: hidden;
+}
+
+body.menu-expanded .menu,
+body.menu-expanded .close-menu {
+    opacity: 1;
+    visibility: visible;
+}
+
+.menu {
+    transform: translateY(100%); /*Quando clicar no expanded ele vai transformar em 0
+    e vir subindo com 300ms de delay para parte de cima*/
+}
+
+body.menu-expanded .menu {
+    top: 0;
+    left: 0;
+    background:var(--primary-color);
+
+    width: 100vw;
+    height: 100vh;
+    padding-top: var(--nav-height);
+
+    transition: transform 350ms; /* animação de imagem */
+
+    transform: translateY(0);
+
+}
+
+body.menu-expanded nav {
+    position: relative;
+}
+
+.menu ul:nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    gap: 4.8rem;
+
+    margin-top: 6rem;
+
+    font-weight: 700;
+    font-size: 2.4rem;
+    line-height: 3.1rem;
+}
+
+.menu ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.menu .button {
+    background: white;
+    border-radius: 4rem;
+    font-weight: 700;
+    font-size: 1.8rem;
+    line-height: 2.4rem;
+    text-transform: uppercase;
+    text-decoration: none;
+
+    color: var(--primary-color);
+    display: inline-block;
+    padding: 16px 32px;
+
+    margin-top: 4.8rem;
+    margin-bottom: 8rem;
+}
+
+.menu .button:hover{
+    background-color: var(--primary-color);
+    color: white;
+
+    filter: brightness(1.3);
+}
+.social-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3.2rem;
+}
+
+body.menu-expanded .logo,
+body.menu-expanded button{
+    position: relative;
+    z-index: 100;
+}
+
+body.menu-expanded .logo path {
+    fill:white;
+}
+body.menu-expanded button path {
+    stroke:white;
+}
+
+
+/*Criando uma tag html pelo css peseudo select, class
+
+'header::before' header conteudo principal before(antes) <- traução
+before(tag) vira uma caixa
+classificamos ele como vazio para starta*/
+
+
+/*================HOME================*/
+
+#home {
+    padding-top: calc(4.1rem + var(--nav-height));
+      /*padding-inline: 2.4rem;
+    padding-block: 1.6rem;  shorthand
+    padding: 2.4rem 2.4rem; <- coisas importante*/
+}
+
+#home::before {
+    content: '';
+    width: 100%; /*view port = é toda a janela de exibição nw,
+    podemos usar a unidade de medida 'vw' v(viewport) w(largura)*/
+    height: calc(108rem + var(--nav-height));
+    background-color: var(--brand-light);
+
+    /*Todo elemento precisa de um display*/
+    display: block; /*fazendo um quadrado mexendo na altura e largura*/
+    
+    position: absolute; /*abre janelas para novas tags logo abaixo*/
+    top:0;
+    left:0;
+    
+    /*Temos o eixo z-index para mexer dentro da profundidade tendo 0 como padrão*/
+    z-index: -1;
+
+}
+
+#home .button{
+    margin-inline: auto;
+}
+
+#home p {
+    font-size: 1.8rem;
+    line-height: 150%;
+    font-weight: 400;
+    color: var(--paragraph); /*Aplicação do valor da variavel como se fosse uma função*/
+    
+    margin-bottom: 3.2rem;
+}
+
+#home
+
+/* Vamos ajuntar a imagem com a div principal .stats*/
+#home img {
+    width: 26.4rem; /*definiu uma largura para acompanhar o tamanho da tela .rem*/
+
+    display: block; /* Tiramos o espaço que vem exportado da imagem*/
+     
+    margin-inline:auto;/*centralizando*/
+
+    /*object-position tag para mexer a imagem posicionando em qualquer lugar
+    primeiro valor = eixo x(+esquerda-direita)      segundo valor eixo y(segundo valor altura)*/
+
+    object-position: 0 2rem;
+
+}
+
+
+/* 
+CODIGO QUE EU ESCREVI
+div {
+    border-radius: 4rem;
+    text-transform: uppercase;
+    background-color: var(--primary-color);
+} */
+
+/* Chamar um seletor de class usa o '.'*/
+
+#home .stats {
+    width: 100%;
+    /* width: 32.7rem; Adaptamos para 100 por cento do espaço disponivel telas menores que 50% */
+    padding-block:4rem ;/*Padding-block mexe nos espaços em cima e em baixo*/
+    /*Margin-inline = tag para centralizar */
+    margin-inline:auto;
+
+    background-color: var(--brand-beige);
+    border: 1px solid var(--brand-light);
+    border-radius: 0.6rem;
+
+    display:flex; /*Muda a direção com o 'direction', 'justify-content' = */
+    flex-direction: column;
+    justify-content: center;
+    gap:6rem;
+}
+/* '.stats h3' = definindo tamanho e cor para o h3*/
+#home .stat h3 {
+    font-size:4.8rem;
+    color: var(--headline);
+    line-height: 130%;
+
+    margin-bottom: 0.4rem;
+}
+
+/*  '.stats p' está com uma especificidade maior que apenas '.stats'
+fazendo com que para todas as tags <p> vai ter um valor próprio*/
+
+#home .stat p {
+    margin: 0;
+    color:var(--primary-color);
+    font-size: 1.6rem;
+    line-height: 150%;
+}
+
+
+
+/*================SERVICES================*/
+#services {
+    margin-bottom: 6rem;
+}
+
+#services .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
+
+}
+#services .card {
+    padding: 2.4rem;
+    text-align: left;
+
+    background: white;
+
+    border: 1px solid var(--brand-light);
+    border-radius: .6rem;
+}
+
+#services .card h3 {
+    margin-block: 1.6rem;
+}
+
+
+
+/*================ABOUT================*/
+
+#about {
+    text-align: left;
+    background-color: var(--brand-beige);
+}
+
+#about header h2 {
+    margin-bottom: 2.4rem;
+
+}
+
+#about .content p {
+    margin-top: 2.4rem;
+    margin-bottom: 6rem;
+}
+
+/*================CONTACT================*/
+
+#contact {
+    text-align: left;
+}
+
+#contact header {
+    margin-bottom: 3.2rem;
+}
+
+#contact ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+
+    margin-bottom: 3.2rem;
+}
+
+#contact ul li {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+/*================FOOTER================*/
+
+footer {
+    background-color: var(--primary-color);
+    padding-block: 6rem;
+
+    text-align: left;
+
+    color: white;
+}
+
+footer .logo {
+    display: inline-block;
+    margin-bottom: 2.4rem;
+}
+
+footer .logo svg {
+    width:  26.6rem;
+    height: 3.1rem;
+}
+
+footer .logo path {
+    fill: white;
+}
+
+footer p {
+    color: var(--brand-beige);
+    line-height: 2;
+
+    margin-bottom: 3.2rem;
+}
+footer .social-links {
+    justify-content: flex-start;
+}
+
+/*BackToTopButton*/
+#backToTopButton {
+    position: fixed;
+    bottom: 1rem;
+    right: 2.5rem;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(100);
+    transition: 200ms;
+}
+
+#backToTopButton.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/*================RESPONSIVO================*/
+/* Quando o dispositivo tiver uma largura minima de 1024 pixel aplicar essas regras
+No caso da largura minima é relacionados a computadores desktop
+
+Regra midia at media*/
+@media (min-width: 1024px) {
+    /*================GERAL================*/
+    body {
+        overflow: auto;
+    }
+    
+      .wrapper {
+        width: min(112rem, 100%);
+        display: grid;
+    }
+    
+      .col-a {
+        grid-area: A;
+    }
+    
+      .col-b {
+        grid-area: B;
+    }
+    
+      section {
+        padding-block: 16rem;
+    }
+    
+      section header h2 {
+        font-size: 4rem;
+        line-height: 5.2rem;
+    }
+   
+    /*================NAVIGATION================*/
+
+    /* reset == é configurar para o modo computador 
+    *usando initial e regredindo tudo 
+    * 'initial' => Pegar o valor inicial antes de ter colocado o css, não vai usar o valores de antes 
+    e sim os valores do navegador
+    */
+
+    nav#navigation .wrapper * {
+        margin: 0;
+        padding: 0;
+        visibility: initial;
+        display: initial;
+        opacity: initial;
+        flex-direction: initial;
+        position: initial;
+        font-size: initial;
+        font-weight: initial;
+        transform: initial;
+        color: initial;
+        background-color: initial;
+        filter: initial;
+    }
+    
+      nav#navigation .close-menu,
+      nav#navigation .open-menu,
+      nav#navigation .social-links {
+        display: none;
+    }
+    
+      nav#navigation .menu {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 60%;
+    }
+
+        /*Dando espaço no menu*/
+
+      nav#navigation .menu ul:nth-child(1) {
+        display: flex;
+        gap: 3.2rem;
+    }
+      
+      /*Colocando as configuração das letras colocando cor e opacidade*/
+
+      nav#navigation .menu ul li a {
+        color: var(--primary-color);
+        opacity: 0.7;
+    }
+      
+      /* Colocando o style do botton meno ag.Consult tirando as configuração de box 
+      * Deixando o proprio browser configurar
+      */
+
+      nav#navigation .menu a.button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem 2.4rem;
+    
+        border: 1px solid var(--primary-color);
+        border-radius: 4rem;
+    
+        color: var(--primary-color);
+    
+        font-weight: 700;
+        font-size: 1.4rem;
+        line-height: 1.8rem;
+        text-transform: uppercase;
+    }
+    
+      nav#navigation .menu a.button:hover {
+        background-color: var(--primary-color);
+        border: none;
+        color: white;
+    }
+
+        /* Configurando a cor de Scroll  */
+      nav#navigation.scroll .menu ul li a {
+        color: var(--brand-light-2);
+        opacity: 0.6;
+    }
+      
+        /* Quando tiver Scroll colocar essas cor ao button*/
+      nav#navigation.scroll .menu a.button {
+        border-color: white;
+        color: white;
+    }
+
+        /**/
+      nav#navigation .menu li a {
+        transition: opacity 0.4s;
+    }
+
+
+      /* Nos botttun do menu com style*/
+      nav#navigation .menu li a.active,
+      nav#navigation .menu li a:hover {
+        opacity: 1;
+        font-weight: 700;
+    }
+
+        /*Criando o after para estilizar colocando linha a baixo do menu com trasição e tudo */
+      nav#navigation .menu li a::after {
+        content: '';
+        width: 0%;
+        height: 2px;
+        background-color: var(--primary-color);
+    
+        position: relative;
+        bottom: -2rem;
+        left: -0.5rem;
+    
+        display: block;
+    
+        transition: width 0.2s; /*Transição da barrinha */
+    }
+        /*Colocando a cor quando tiver scroll*/
+      nav#navigation.scroll .menu li a::after {
+        background-color: white;
+    }
+        /*Quando tiver navgation encotrar todos os filhos aplicar o after*/
+      nav#navigation .menu li a.active::after,
+      nav#navigation .menu li a:hover::after {
+        padding-inline: 0.8rem;
+        width: 100%;
+    }
+        /*Colocando opacity quando tiver menu*/
+      nav#navigation.scroll .menu li a.active,
+      nav#navigation.scroll .menu li a:hover {
+        opacity: 1;
+    }
+        /* Colocando style no botão quando estiver no scroll*/
+      nav#navigation.scroll .menu a.button.active,
+      nav#navigation.scroll .menu a.button:hover {
+        background-color: var(--primary-color);
+        filter: brightness(1.3);
+        border: none;
+    }
+    
+      /*=== HOME =================================*/
+
+      /*Configurando as letras do body principal
+      *No .wrapper(embrulho) criamos um display:grid; para desbloquear as propiedades do grid
+      * 
+      * Colocamos a parte inicial dentro de duas divs col-a col-b
+      * para colocarmos o display-grid e trabalhar melho a ideia de mudança de imagem letras texto etc
+      * No display grid podemos definir linhas e colunas separando por um quadrado de 9 como uma tabela riscada
+      */
+      #home::before {
+        height: calc(96% - var(--nav-height));
+    }
+    
+      #home {
+        padding-top: var(--nav-height);
+    }
+
+      /* colocando o conteudo do home lado a lado com o display grid usamos fr como valor */
+
+      #home .wrapper {
+        grid-template-columns: 60.5rem 1fr;
+        /* Com o dislpay grid definimos a área nesse exemplo
+        aqui definimos com 4 quadrados sendo 'A' left 'B' right 'C' 'C' como parte de baixo */
+        grid-template-areas:
+          'A B'
+          'C C';
+    }
+      /* Aqui estamos aplicando o display grid em cada lugar para usar definimos as letras 
+        deixamos col-a e col-b no geral
+        alinhamos ao centro*/
+
+      #home .col-a {
+        text-align: left;
+        align-self: center;
+    }
+      /*Definindo tamanho de letra do h1*/
+      #home h1 {
+        font-size: 5.2rem;
+    }
+      /* tamanho do paragrafo*/
+      #home .content p {
+        font-size: 1.8rem;
+    }
+      
+      /*mexendo nos stats numeros +3.500 +15 +10 
+      definimos nele com o display grid que ele esta na parte de baixo
+      tem flex-direction:row;(fileira) com espaçamento e preenchimento*/
+      #home .stats {
+        grid-area: C;
+    
+        flex-direction: row;
+        padding: 6rem;
+        gap: 0; /* tava pegando gap de outro lugar definimos 0*/
+    }
+      /*Sinal de mais significa anterior a ele, colocando uma borda*/
+      #home .stats .stat + .stat {
+        border-left: 1px solid var(--primary-color);
+      }
+      /* propiedade para dar preenchimento de 1 no stats*/
+      #home .stats .stat {
+        flex: 1;
+    }
+    
+      #home .button {
+        margin: 0;
+    }
+    
+      #home img {
+        width: 42rem;
+    }
+    
+      /*=== SERVICES =================================*/
+
+      /*limite de largura das sections*/
+      #services h2 {
+        width: 47rem;
+        margin-inline: auto; 
+    }
+      /* Colocamos um ao lado do outro */
+      #services .cards {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 4rem; /*Espaçamento dos cards*/
+    }
+    
+      #services .card {
+        width: 30%;
+        flex-grow: 1; /*Essa propiedade faz os cards crescerem conforme a necessidade*/
+    }
+    
+      /*=== ABOUT =================================*/
+      /*Configurando com o display grid o posicionamento da imagem do doutor colocando conteudo
+      e imagem lado a lado*/
+      #about .wrapper {
+        grid-template-columns: 48rem 1fr;
+        grid-template-areas: 'B A';
+        gap: 6.7rem;      
+    }
+      /*Posicionando a */
+      #about .col-a {
+        align-self: center;
+    }
+      /* Espaçamento do paragrafo*/
+      #about .content p {
+        margin-bottom: 0;
+    }
+    
+      /*=== CONTACT =================================*/
+    
+      #contact .wrapper {
+        grid-template-columns: 1fr 57.5rem;
+        grid-template-areas: 'A B';
+    }
+    
+      #contact h2 {
+        width: 40.4rem;
+    }
+    
+      /*=== FOOTER =================================*/
+      footer {
+        padding-block: 8rem;
+    }
+      
+      footer .wrapper {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 'A B';
+    }
+    
+      footer .col-a {
+        align-self: center;
+    }
+    
+    
+      footer .col-b {
+        align-self: center;
+        justify-self: flex-end;
+    }
+    
+      footer p {
+        margin-bottom: 0
+    }
+  }
+}
