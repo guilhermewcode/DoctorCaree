@@ -64,7 +64,7 @@ function activeMenuAtCurrentSection(section) {
     const sectionId = section.getAttribute('id') //
     const menuElement = document.querySelector(`.menu a[href*=${sectionId}]`)
 
-    menuElement.classList.remore('active')
+    menuElement.classList.remove('active')
 
   if (sectionBoundaries) {
     menuElement.classList.add('active')
